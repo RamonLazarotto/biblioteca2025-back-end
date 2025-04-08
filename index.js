@@ -21,7 +21,7 @@ app.post('/editora', editora.inserir);
 
 app.put('/editora/:id', editora.alterar);
 
-app.delete('/editora/:id', editora.excluir)
+app.delete('/editora/:id', editora.excluir);
 
 //Mensagem de que o servidor rodando
 app.listen(3000, () => {console.log("Servidor Rodando.") });

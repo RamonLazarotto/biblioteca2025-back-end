@@ -16,16 +16,17 @@ async function inserir(req, res) {
     res.json(respostaBanco);
 }
 
-async function alterar(req, res) {
+async function alterar(req, res){
     const nomeeditora = req.body.nomeeditora;
-    const cnpj = req.body.cnpj
-    const endereco = req.body.endereco
+    const cnpj = req.body.cnpj;
+    const endereco = req.body.endereco;
 
-    const ideditora = req.params.ideditora
+    const ideditora = req.params.ideditora;
 
     const respostaBanco = await Editora.update(
         {nomeeditora, cnpj, endereco},
-        {where: {ideditora} });
+        {where: {ideditora}}
+    );
     res.json(respostaBanco);
 }
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { Sequelize, DataTypes } from "sequelize"; //Usa as chaves pois dentro da biblioteca dentro dela existem vários métodos
+import { Sequelize, DataTypes, where } from "sequelize"; //Usa as chaves pois dentro da biblioteca dentro dela existem vários métodos
                                                   //Dentro das chaves fica somente o método que vai usar
 
 
@@ -87,5 +87,13 @@ app.put('/editora/:id', async (req, res) => {
             {where: {ideditora} });
         res.json(respostaBanco);
     });
+
+app.delete('/editora/:id', async (req, res) => {
+          const ideditora = req.params.ideditora
+
+          const respostaBanco = await Editora.destroy(
+            {where: {ideditora} });
+          res.json(respostaBanco);
+})
 
 app.listen(3000, () => {console.log("Servidor Rodando.") });

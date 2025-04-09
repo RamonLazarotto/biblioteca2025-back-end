@@ -21,7 +21,7 @@ async function alterar(req, res){
     const cnpj = req.body.cnpj;
     const endereco = req.body.endereco;
 
-    const ideditora = req.params.ideditora;
+    const ideditora = req.params.id;
 
     const respostaBanco = await Editora.update(
         {nomeeditora, cnpj, endereco},
@@ -31,7 +31,7 @@ async function alterar(req, res){
 }
 
 async function excluir(req, res) {
-    const ideditora = req.params.ideditora
+    const ideditora = req.params.id
 
     const respostaBanco = await Editora.destroy(
       {where: {ideditora} });

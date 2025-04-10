@@ -58,8 +58,5 @@ export default banco.define(
             type: DataTypes.INTEGER,
             allowNull: false
         }
-        teste:{
-            
-        }
     }
 )

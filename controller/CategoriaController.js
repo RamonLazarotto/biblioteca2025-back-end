@@ -11,7 +11,7 @@ async function selecionar(req, res) {
     res.json(respostaBanco);
 }
 
-async function inserir(req, res){
+async function inserir(req, res) {
     const respostaBanco = await Categoria.create(req.body);
     res.json(respostaBanco);
 }

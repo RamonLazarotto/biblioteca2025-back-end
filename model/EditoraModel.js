@@ -3,7 +3,7 @@ import banco from "../banco.js";
 
 //Mapeamento do modelo Editora
 export default banco.define(
-    'editora', //Nome da tabela
+    'editora', //Tabela Editora
     {
       // atributos do modelo são definidos aqui (Campos da tabela)
       ideditora: {
@@ -25,4 +25,4 @@ export default banco.define(
         allowNull: true
       }
     }
-  );
+  )

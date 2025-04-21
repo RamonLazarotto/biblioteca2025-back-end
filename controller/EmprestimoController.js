@@ -61,7 +61,7 @@ async function emprestar(req, res) {
   const emprestado = true;
   await Livro.update(
     {emprestado},
-    {where: (idlivro)})
+    {where: {idlivro}})
 
   res.json(respostaBanco);
 }

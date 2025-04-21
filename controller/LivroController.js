@@ -12,8 +12,15 @@ async function selecionar(req, res) {
 }
 
 async function inserir(req, res) {
-    const respostaBanco = await Livro.create(req.body);
-    res.json(respostaBanco);
+    console.log("Dados recebidos no req.body:", req.body);
+    
+    try {
+        const respostaBanco = await Livro.create(req.body);
+        res.json(respostaBanco);
+    } catch (erro) {
+        console.error("Erro ao inserir livro:", erro);
+        res.status(500).json({ erro: erro.message });
+    }
 }
 
 async function alterar(req, res) {

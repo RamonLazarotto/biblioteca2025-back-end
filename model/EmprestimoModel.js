@@ -22,6 +22,10 @@ export default banco.define(
         type: DataTypes.DATEONLY,
         allowNull: false
       },
+      vencimento:{
+        type: DataTypes.DATEONLY,
+        allowNull: false
+      },
       devolucao: {
         type: DataTypes.DATEONLY,
         allowNull: true

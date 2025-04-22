@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, DATE } from "sequelize";
 import banco from "../banco.js";
 
 export default banco.define(

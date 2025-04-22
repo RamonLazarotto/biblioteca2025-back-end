@@ -47,6 +47,11 @@ async function emprestar(req, res) {
     res.status(422).send("Este livro já está emprestado!");
   }
 
+  //Verifica se o livro está com devolução pendente
+  if (livroBanco.devolucao) {
+    res.status(422).send("Este livro está com devolução pendente");
+ }
+
   //Verifica se o usuário tem um empréstimo pendente
   //falta fazer
 
@@ -67,19 +72,39 @@ async function emprestar(req, res) {
 }
 
 async function devolver(req, res){
-    const nomeautor = req.body.nomeautor;
-    const nascimento = req.body.nascimento;
-    const biografia = req.body.biografia;
-    const nacionalidade = req.body.nacionalidade;
-    const foto = req.body.foto;
+    const idlivro = req.body.idlivro;
+    const idusuario = req.body.idusuario;
+    const emprestimo = req.body.emprestimo;
+    const vencimento = req.body.vencimento;
+    let devolucao = req.body.devolucao;
+    const observacao = req.body.observacao;
 
-    const idautor = req.params.id;
+    const idemprestimo = req.params.id;
 
+    //Verifica se o livro existe
+    const livroBanco = await Livro.findByPk(idlivro);
+      if (!livroBanco) {
+      res.status(404).send("Livro não encontrado");
+    }
+
+    //Atualizando o campo emprestimo no banco
+    try{
+    devolucao = moment().format("YYYY-MM-DD")  
     const respostaBanco = await Emprestimo.update(
-        {nomeautor, nascimento, biografia, nacionalidade, foto},
-        {where: {idautor}}
-    )
-    res.json(respostaBanco);
+        {idlivro, idusuario, emprestimo, vencimento, devolucao, observacao},
+        {where: {idemprestimo}})
+
+    //alterando o campo emprestado do livro para false
+    const emprestado = false;
+    await Livro.update(
+    {emprestado},
+    {where: {idlivro}})
+
+  res.json(respostaBanco);
+    } catch (erro) {
+        console.error("Erro ao inserir livro:", erro);
+        res.status(500).json({ erro: erro.message });
+    }  
 }
 
 export default {listar, selecionar, emprestar, devolver};

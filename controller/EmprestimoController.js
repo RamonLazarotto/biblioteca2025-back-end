@@ -76,7 +76,6 @@ async function devolver(req, res){
     const idusuario = req.body.idusuario;
     const emprestimo = req.body.emprestimo;
     const vencimento = req.body.vencimento;
-    let devolucao = req.body.devolucao;
     const observacao = req.body.observacao;
 
     const idemprestimo = req.params.id;
@@ -89,7 +88,7 @@ async function devolver(req, res){
 
     //Atualizando o campo emprestimo no banco
     try{
-    devolucao = moment().format("YYYY-MM-DD")
+    const devolucao = moment().format("YYYY-MM-DD")
     const respostaBanco = await Emprestimo.update(
         {idlivro, idusuario, emprestimo, vencimento, devolucao, observacao},
         {where: {idemprestimo}})

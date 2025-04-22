@@ -12,8 +12,6 @@ async function selecionar(req, res) {
 }
 
 async function inserir(req, res) {
-    console.log("Dados recebidos no req.body:", req.body);
-    
     try {
         const respostaBanco = await Livro.create(req.body);
         res.json(respostaBanco);

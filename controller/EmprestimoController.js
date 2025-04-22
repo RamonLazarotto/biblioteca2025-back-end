@@ -89,7 +89,7 @@ async function devolver(req, res){
 
     //Atualizando o campo emprestimo no banco
     try{
-    devolucao = moment().format("YYYY-MM-DD")  
+    devolucao = moment().format("YYYY-MM-DD")
     const respostaBanco = await Emprestimo.update(
         {idlivro, idusuario, emprestimo, vencimento, devolucao, observacao},
         {where: {idemprestimo}})

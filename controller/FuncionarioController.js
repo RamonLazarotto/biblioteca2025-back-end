@@ -90,4 +90,44 @@ async function demitir(req, res){
     }
 }
 
-export default {listar, selecionar, inserir, alterar, demitir};
+async function senha(req, res){
+    const senha = req.body.senha;
+
+    const idfuncionario = req.params.id;
+
+    //Verifica se o funcionário existe
+    const funcionarioBanco = await Funcionario.findByPk(idfuncionario);
+    if (!funcionarioBanco) {
+        res.status(404).send("Funcionário não encontrado!");
+    }
+
+    //Verificando se funcionário já foi demitido
+    if (!funcionarioBanco.ativo){
+        res.status(422).send("Funcinário inativo(demitido)!");
+    }
+
+    //Verificação de tamanho da senha
+    if (funcionarioBanco.senha < 6){
+        res.status(422).send("Quantidade mínima de caracteres é 6!");
+    }
+
+    if (funcionarioBanco.senha > 20){
+        res.status(422).send("Quantidade máxima de caracteres é 20!");
+    }
+
+    try{
+        const respostaBanco = await Funcionario.update(
+            {senha},
+            {where: {idfuncionario}}
+        );
+
+        res.json(respostaBanco);
+
+    } catch (erro) {
+        console.error("Erro ao inserir Senha:", erro);
+        res.status(500).json({ erro: erro.message });
+    }
+
+}
+
+export default {listar, selecionar, inserir, alterar, demitir, senha};

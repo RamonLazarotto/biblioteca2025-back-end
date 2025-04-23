@@ -65,6 +65,7 @@ app.get('/funcionario/:id', funcionario.selecionar);
 app.post('/funcionario', funcionario.inserir);
 app.put('/funcionario/:id', funcionario.alterar);
 app.put('/DemitirFuncionario/:id', funcionario.demitir);
+app.put('/senhaFuncionario/:id', funcionario.senha);
 
 //Mensagem de que o servidor rodando
 app.listen(3000, () => {console.log("Servidor Rodando.") });

@@ -1,4 +1,3 @@
-import moment from "moment";
 import Funcionario from "../model/FuncionarioModel.js";
 
 async function listar(req, res) {
@@ -13,16 +12,11 @@ async function selecionar(req, res) {
 }
 
 async function inserir(req, res) {
-    try{
     const respostaBanco = await Funcionario.create(req.body);
     res.json(respostaBanco);
-    } catch (erro) {
-    console.error("Erro ao inserir Funcionário:", erro);
-    res.status(500).json({ erro: erro.message });
-    }
 }
 
-async function alterar(req, res){
+async function alterar(req, res) {
     const nomefuncionario = req.body.nomefuncionario;
     const cpf = req.body.cpf;
     const email = req.body.email;
@@ -33,101 +27,17 @@ async function alterar(req, res){
 
     const idfuncionario = req.params.id;
 
-    //Verificando se funcionário já foi demitido
-    const funcionarioBanco = await Funcionario.findByPk(idfuncionario);
-    if (!funcionarioBanco.ativo){
-        res.status(422).send("Funcinário inativo(demitido)!");
-    }
-
-    try{
-        const respostaBanco = await Funcionario.update(
-            {nomefuncionario, cpf, email, telefone, nascimento, salario, contratacao},
-            {where: {idfuncionario}}
-        );
-        res.json(respostaBanco);
-
-    } catch (erro) {
-        console.error("Erro ao inserir Funcionário:", erro);
-        res.status(500).json({ erro: erro.message });
-    }
+    const respostaBanco = await Funcionario.update(
+        { nomefuncionario, cpf, email, telefone, nascimento, salario, contratacao },
+        { where: { idfuncionario } });
+    res.json(respostaBanco);
 }
 
-async function demitir(req, res){
-    const demissao = req.body.demissao;
-
+async function excluir(req, res) {
     const idfuncionario = req.params.id;
 
-    //Verifica se o Funcionario existe
-    const funcionarioBanco = await Funcionario.findByPk(idfuncionario);
-    if (!funcionarioBanco) {
-        res.status(404).send("Funcionário não encontrado!");
-    }
-
-    //Verificando se funcionário já foi demitido
-    if (!funcionarioBanco.ativo){
-        res.status(422).send("Funcinário inativo(demitido)!");
-    }
-
-    try{
-        //Passando a data da demissão do funcionario
-        const respostaBanco = await Funcionario.update(
-            {demissao},
-            {where: {idfuncionario}}
-        );
-
-        //alterando o campo ativo do funcionario para false
-        const ativo = false;
-        await Funcionario.update(
-            {ativo},
-            {where: {idfuncionario}}
-        )
-
-        res.json(respostaBanco);
-
-    } catch (erro) {
-        console.error("Erro ao inserir Funcionário:", erro);
-        res.status(500).json({ erro: erro.message });
-    }
+    const respostaBanco = await Funcionario.destroy({ where: { idfuncionario } });
+    res.json(respostaBanco);
 }
 
-async function senha(req, res){
-    const senha = req.body.senha;
-
-    const idfuncionario = req.params.id;
-
-    //Verifica se o funcionário existe
-    const funcionarioBanco = await Funcionario.findByPk(idfuncionario);
-    if (!funcionarioBanco) {
-        res.status(404).send("Funcionário não encontrado!");
-    }
-
-    //Verificando se funcionário já foi demitido
-    if (!funcionarioBanco.ativo){
-        res.status(422).send("Funcinário inativo(demitido)!");
-    }
-
-    //Verificação de tamanho da senha
-    if (funcionarioBanco.senha < 6){
-        res.status(422).send("Quantidade mínima de caracteres é 6!");
-    }
-
-    if (funcionarioBanco.senha > 20){
-        res.status(422).send("Quantidade máxima de caracteres é 20!");
-    }
-
-    try{
-        const respostaBanco = await Funcionario.update(
-            {senha},
-            {where: {idfuncionario}}
-        );
-
-        res.json(respostaBanco);
-
-    } catch (erro) {
-        console.error("Erro ao inserir Senha:", erro);
-        res.status(500).json({ erro: erro.message });
-    }
-
-}
-
-export default {listar, selecionar, inserir, alterar, demitir, senha};
+export default { listar, selecionar, inserir, alterar, excluir };

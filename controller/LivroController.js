@@ -5,6 +5,12 @@ async function listar(req, res) {
     res.json(respostaBanco);
 }
 
+async function listarPorCategoria(req, res) {
+    const idcategoria = req.params.id;
+    const respostaBanco = await Livro.findAll({ where: { idcategoria } });
+    res.json(respostaBanco);
+}
+
 async function selecionar(req, res) {
     const id = req.params.id;
     const respostaBanco = await Livro.findByPk(id);
@@ -12,13 +18,8 @@ async function selecionar(req, res) {
 }
 
 async function inserir(req, res) {
-    try {
-        const respostaBanco = await Livro.create(req.body);
-        res.json(respostaBanco);
-    } catch (erro) {
-        console.error("Erro ao inserir livro:", erro);
-        res.status(500).json({ erro: erro.message });
-    }
+    const respostaBanco = await Livro.create(req.body);
+    res.json(respostaBanco);
 }
 
 async function alterar(req, res) {
@@ -31,25 +32,22 @@ async function alterar(req, res) {
     const resumo = req.body.resumo;
     const ativo = req.body.ativo;
     const condicaofisica = req.body.condicaofisica;
-    const emprestado = req.body.emprestado;
     const ideditora = req.body.ideditora;
-    const idcategoria = req.body.idcategoria;
+    const idcatagoria = req.body.idcatagoria;
 
     const idlivro = req.params.id;
 
     const respostaBanco = await Livro.update(
-        {titulo, edicao, paginas, publicacao, foto, localizacao, resumo, ativo, condicaofisica, emprestado, ideditora, idcategoria},
-        {where: {idlivro}}
-    );
+        { titulo, edicao, paginas, publicacao, foto, localizacao, resumo, ativo, condicaofisica, ideditora, idcatagoria },
+        { where: { idlivro } });
     res.json(respostaBanco);
 }
 
 async function excluir(req, res) {
-    const idlivro = req.params.id
+    const idlivro = req.params.id;
 
-    const respostaBanco = await Livro.destroy(
-      {where: {idlivro} });
+    const respostaBanco = await Livro.destroy({ where: { idlivro } });
     res.json(respostaBanco);
 }
 
-export default { listar, selecionar, inserir, alterar, excluir };
+export default { listar, selecionar, inserir, alterar, excluir, listarPorCategoria };

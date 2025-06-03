@@ -1,59 +1,60 @@
 import { DataTypes } from "sequelize";
 import banco from "../banco.js";
 
+//mapeamento da model Funcionário
 export default banco.define(
     'funcionario',
     {
-        idfuncionario:{
+        // Model attributes are defined here
+        idfuncionario: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
-        nomefuncionario:{
+        nomefuncionario: {
             type: DataTypes.STRING(60),
             allowNull: false
         },
-        cpf:{
+        cpf: {
             type: DataTypes.STRING(15),
             allowNull: true
         },
-        email:{
+        email: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        telefone:{
+        telefone: {
             type: DataTypes.STRING(15),
             allowNull: true
         },
-        nascimento:{
+        nascimento: {
             type: DataTypes.DATEONLY,
             allowNull: true
         },
-        salario:{
-            type: DataTypes.DECIMAL(11, 2),
-            allowNull: false
+        salario: {
+            type: DataTypes.DOUBLE,
+            allowNull: true
         },
-        contratacao:{
+        contratacao: {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        demissao:{
+        demissao: {
             type: DataTypes.DATEONLY,
             allowNull: true
         },
-        ativo:{
+        ativo: {
             type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: true
+            allowNull: true
         },
-        senha:{
+        senha: {
             type: DataTypes.STRING(100),
             allowNull: true
         },
-        token:{
+        token: {
             type: DataTypes.STRING(100),
             allowNull: true
         }
     }
-)
+);

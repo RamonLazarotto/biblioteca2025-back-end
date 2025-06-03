@@ -1,7 +1,7 @@
 import Autor from "../model/AutorModel.js";
 
 async function listar(req, res) {
-    const respostaBanco = await Autor.findAll();
+    const respostaBanco  = await Autor.findAll();
     res.json(respostaBanco);
 }
 
